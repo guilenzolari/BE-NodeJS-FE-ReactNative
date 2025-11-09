@@ -1,7 +1,15 @@
 import User from '../models/User.js';
+import { userValidationSchema } from '../models/UserValidation.js';
 
 // Criar um novo usuário
 export const createUser = async (req, res) => {
+  const { error } = userValidationSchema.validate(req.body);
+  if (error) {
+    return res
+      .status(422)
+      .json({ error: error.details.map((detail) => detail.message).join(', ') });
+  }
+
   try {
     const user = await User.create(req.body);
     res.status(201).json(user);
@@ -61,6 +69,12 @@ export const getUserByUsername = async (req, res) => {
 
 //PUT -> atualizar usuário já existente
 export const updateUserByID = async (req, res) => {
+  const { error } = userValidationSchema.validate(req.body, { presence: 'optional' });
+  if (error) {
+    return res
+      .status(422)
+      .json({ error: error.details.map((detail) => detail.message).join(', ') });
+  }
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
@@ -73,14 +87,24 @@ export const updateUserByID = async (req, res) => {
   }
 };
 
+// Adicionar ID de amigo ao usuário
 export const addFriend = async (req, res) => {
+  const { error } = userValidationSchema.validate(req.body);
+  if (error) {
+    return res
+      .status(422)
+      .json({ error: error.details.map((detail) => detail.message).join(', ') });
+  }
   try {
     const user = await User.findById(req.params.id);
-    const friend = await User.getUserByUsername(req.body.username);
-
     if (!user) return res.status(404).json({ error: 'User not found' });
 
+    const friend = await User.getUserByUsername(req.body.username);
     if (!friend) return res.status(404).json({ error: 'Friend not found' });
+
+    if (user.friends.includes(friend._id)) {
+      return res.status(409).json({ error: 'Friend already added' });
+    }
 
     user.friends.push(friend._id);
     await user.save();
