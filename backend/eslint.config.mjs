@@ -6,6 +6,7 @@ import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
   {
+    ignores: ['node_modules/**', 'dist/**', 'build/**'], // Ignorar pastas comuns de build e dependências
     files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: {
