@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import { connectDB } from './config/db.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 dotenv.config(); //Carrega variáveis do .env
 connectDB();
@@ -24,3 +25,34 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// error handler SEMPRE por último (Tudo que pode gerar erro → vem antes do errorHandler)
+app.use(errorHandler);
+
+//SE NADA DER ERRO:
+// Request
+//  ↓
+// cors()
+//  ↓
+// express.json()
+//  ↓
+// /users → userRoutes
+//  ↓
+// controller
+//  ↓
+// (res.json)
+
+//SE DER ERRO EM ALGUM LUGAR:
+// Request
+//  ↓
+// cors
+//  ↓
+// express.json
+//  ↓
+// /users
+//  ↓
+// 💥 ERRO
+//  ↓
+// errorHandler
+//  ↓
+// Response de erro
