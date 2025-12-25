@@ -22,7 +22,7 @@ const AppNavigator: React.FC = () => {
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
-        headerShown: false,
+        headerShown: true,
       })}
     >
       <Tab.Screen name="Friends" component={HomeView} />
