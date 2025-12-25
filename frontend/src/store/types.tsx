@@ -10,6 +10,5 @@ export type User = {
   age: number;
   UF: UF;
   friendIds: number[];
-  shareInfoWithFriends: boolean;
   shareInfoWithPublic: boolean;
 };

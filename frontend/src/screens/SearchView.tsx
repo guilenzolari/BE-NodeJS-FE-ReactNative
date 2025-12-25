@@ -1,12 +1,20 @@
-import Reac, { memo } from 'react';
-import { View, Text } from 'react-native';
+import { memo } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const SearchView: React.FC = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       <Text>Search View</Text>
     </View>
   );
 };
 
 export default memo(SearchView);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

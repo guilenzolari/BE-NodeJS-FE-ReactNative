@@ -12,17 +12,32 @@ const icons: Record<string, (focused: boolean) => string> = {
   Me: focused => (focused ? 'person' : 'person-outline'),
 };
 
+interface TabBarIconProps {
+  focused: boolean;
+  color: string;
+  size: number;
+  routeName: string;
+}
+
+const TabBarIcon: React.FC<TabBarIconProps> = ({
+  focused,
+  color,
+  size,
+  routeName,
+}) => {
+  const iconName = icons[routeName](focused);
+  return <Icon name={iconName} size={size} color={color} />;
+};
+
 const AppNavigator: React.FC = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          const iconName = icons[route.name](focused);
-          return <Icon name={iconName} size={size} color={color} />;
-        },
+        // eslint-disable-next-line react/no-unstable-nested-components
+        tabBarIcon: props => <TabBarIcon {...props} routeName={route.name} />,
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
-        headerShown: false,
+        headerShown: true,
       })}
     >
       <Tab.Screen name="Friends" component={HomeView} />
