@@ -4,33 +4,12 @@ import { StyleSheet } from 'react-native';
 import FriendCard from '../components/FriendCard';
 import { FriendDisplayData } from '../store/types';
 import { useNavigation } from '@react-navigation/native';
-
-const friendsData: FriendDisplayData[] = [
-  {
-    id: 1,
-    firstname: 'Alice',
-    lastname: 'Smith',
-    username: 'alice',
-    email: 'alice@example.com',
-  },
-  {
-    id: 2,
-    firstname: 'Bob',
-    lastname: 'Johnson',
-    username: 'bob',
-    email: 'bob@example.com',
-  },
-  {
-    id: 3,
-    firstname: 'Charlie',
-    lastname: 'Brown',
-    username: 'charlie',
-    email: 'charlie@example.com',
-  },
-];
+import { selectMyFriends } from '../store/friendSlice';
+import { useSelector } from 'react-redux';
 
 const HomeView: React.FC = () => {
   const navigation = useNavigation<any>();
+  const friendsData = useSelector(selectMyFriends);
 
   const navigateToFriendProfile = useCallback(() => {
     navigation.navigate('FriendProfileView');
