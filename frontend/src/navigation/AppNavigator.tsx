@@ -26,6 +26,18 @@ const FriendsStack = () => {
   );
 };
 
+const SearchStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="SearchView"
+        component={SearchView}
+        options={{ title: 'Search' }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const ProfileStack = () => {
   return (
     <Stack.Navigator>
@@ -58,7 +70,7 @@ const AppNavigator: React.FC = () => {
       })}
     >
       <Tab.Screen name="Friends" component={FriendsStack} />
-      <Tab.Screen name="Search" component={SearchView} />
+      <Tab.Screen name="Search" component={SearchStack} />
       <Tab.Screen name="Me" component={ProfileStack} />
     </Tab.Navigator>
   );
