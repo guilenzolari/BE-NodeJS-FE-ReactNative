@@ -12,3 +12,11 @@ export type User = {
   friendIds: number[];
   shareInfoWithPublic: boolean;
 };
+
+export type FriendDisplayData = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+};

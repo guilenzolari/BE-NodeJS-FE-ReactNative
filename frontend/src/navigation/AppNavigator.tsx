@@ -3,8 +3,40 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HomeView from '../screens/HomeView';
 import SearchView from '../screens/SearchView';
 import ProfileView from '../screens/ProfileView';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FriendProfileView from '../screens/FriendProfileView';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const FriendsStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="HomeView"
+        component={HomeView}
+        options={{ title: 'Friends' }}
+      />
+      <Stack.Screen
+        name="FriendProfileView"
+        component={FriendProfileView}
+        options={{ title: 'Friend Profile' }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ProfileView"
+        component={ProfileView}
+        options={{ title: 'Me' }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const icons: Record<string, (focused: boolean) => string> = {
   Friends: focused => (focused ? 'people' : 'people-outline'),
@@ -37,12 +69,12 @@ const AppNavigator: React.FC = () => {
         tabBarIcon: props => <TabBarIcon {...props} routeName={route.name} />,
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
-        headerShown: true,
+        headerShown: false,
       })}
     >
-      <Tab.Screen name="Friends" component={HomeView} />
+      <Tab.Screen name="Friends" component={FriendsStack} />
       <Tab.Screen name="Search" component={SearchView} />
-      <Tab.Screen name="Me" component={ProfileView} />
+      <Tab.Screen name="Me" component={ProfileStack} />
     </Tab.Navigator>
   );
 };
