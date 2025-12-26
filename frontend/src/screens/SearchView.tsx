@@ -8,7 +8,6 @@ const SearchView = () => {
   return (
     <View style={styles.screen}>
       <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-      //TODO: Implement search results list with FlatList
     </View>
   );
 };

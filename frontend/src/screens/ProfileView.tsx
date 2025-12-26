@@ -1,41 +1,43 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { User } from '../store/types';
 import InfoList from '../components/InfoList';
 import ToggleCell from '../components/ToggleCell';
 import { phoneFormatter } from '../utils/dataUtils';
-
-const user: User = {
-  id: 1,
-  firstname: 'John',
-  lastname: 'Doe',
-  username: 'johndoe',
-  email: 'john.doe@example.com',
-  phone: '1234567890',
-  age: 30,
-  UF: 'SP',
-  friendIds: [2, 3],
-  shareInfoWithPublic: false,
-};
-
-const userBasicInfo = [
-  { info: 'Name', data: `${user.firstname} ${user.lastname}` },
-  { info: 'Email', data: user.email },
-];
-
-const userContactInfo = [
-  { info: 'Email', data: user.email },
-  { info: 'Phone', data: phoneFormatter(user.phone) },
-  { info: 'Location', data: user.UF },
-];
-
-const userFriendshipInfo = [
-  { info: 'Number of friends', data: user.friendIds.length.toString() },
-];
+import { useSelector } from 'react-redux';
+import { toggleShareInfo as toggleShare } from '../store/userSlice';
+import { useDispatch } from 'react-redux';
+import { RootState } from '../store/index';
 
 const ProfileView: React.FC = () => {
+  const dispatch = useDispatch();
+  const userData = useSelector((state: RootState) => state.user.currentUser);
+
+  if (!userData) {
+    return <Text>Loading...</Text>;
+  }
+
+  const infoSections = useMemo(
+    () => ({
+      basic: [
+        { info: 'Name', data: `${userData.firstname} ${userData.lastname}` },
+        { info: 'Email', data: userData.email },
+      ],
+      contact: [
+        { info: 'Phone', data: phoneFormatter(userData.phone) },
+        { info: 'Location', data: userData.UF },
+      ],
+      friendship: [
+        {
+          info: 'Number of friends',
+          data: userData.friendIds.length.toString(),
+        },
+      ],
+    }),
+    [userData],
+  );
+
   const toggleShareInfo = () => {
-    user.shareInfoWithPublic = !user.shareInfoWithPublic;
+    dispatch(toggleShare());
   };
 
   const logout = () => {
@@ -45,13 +47,13 @@ const ProfileView: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <InfoList items={userBasicInfo} />
-        <InfoList items={userContactInfo} />
-        <InfoList items={userFriendshipInfo} />
+        <InfoList items={infoSections.basic} />
+        <InfoList items={infoSections.contact} />
+        <InfoList items={infoSections.friendship} />
 
         <ToggleCell
           label="Share info with public"
-          isEnabled={user.shareInfoWithPublic}
+          isEnabled={userData.shareInfoWithPublic}
           onToggle={toggleShareInfo}
         />
         <TouchableOpacity style={styles.button} onPress={logout}>
