@@ -106,3 +106,11 @@ export const deleteUserByID = async (req, res) => {
   }
   res.json(user);
 };
+
+//Listar amigos de um usuário
+export const getFriends = async (req, res) => {
+  const user = await User.findById(req.params.id).populate('friends');
+  if (!user) throw new AppError('User not found', 404);
+
+  res.json(user.friends);
+};
