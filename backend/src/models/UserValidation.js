@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { allUFs } from './allUFs.js';
 
 export const userValidationSchema = Joi.object({
   firstName: Joi.string().min(2).required(),
@@ -9,7 +10,9 @@ export const userValidationSchema = Joi.object({
     .pattern(/^\d{10,11}$/)
     .required(),
   age: Joi.number().min(0).required(),
-  uf: Joi.string().valid('SP', 'RJ', 'ES', 'MG').required(),
+  uf: Joi.string()
+    .valid(...allUFs)
+    .required(),
   password: Joi.string().min(6).required(),
   friends: Joi.array().items(Joi.string()).default([]),
   shareInfoWithFriends: Joi.boolean().default(true),
