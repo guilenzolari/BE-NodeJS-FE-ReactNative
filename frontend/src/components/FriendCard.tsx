@@ -14,7 +14,7 @@ const FriendCard: React.FC<FriendCardProps> = ({ friend, onPress }) => {
       <View style={styles.textCenter}>
         <Text
           style={styles.name}
-        >{`${friend.firstname} ${friend.lastname}`}</Text>
+        >{`${friend.firstName} ${friend.lastName}`}</Text>
         <Text style={styles.username}>@{friend.username}</Text>
         <Text style={styles.email}>{friend.email}</Text>
       </View>

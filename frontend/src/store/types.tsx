@@ -1,22 +1,23 @@
 export type UF = 'SP' | 'RJ' | 'ES' | 'MG';
 
 export type User = {
-  id: number;
-  firstname: string;
-  lastname: string;
-  username: string;
+  _id: string;
   email: string;
+  firstName: string;
+  friendIds: string[];
+  lastName: string;
+  password: string;
   phone: string;
+  username: string;
   age: number;
   UF: UF;
-  friendIds: number[];
   shareInfoWithPublic: boolean;
 };
 
 export type FriendDisplayData = {
-  id: number;
-  firstname: string;
-  lastname: string;
+  _id: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
 };

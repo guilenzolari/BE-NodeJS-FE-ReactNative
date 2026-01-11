@@ -5,20 +5,21 @@ import InfoList from '../components/InfoList';
 import { phoneFormatter } from '../utils/dataUtils';
 
 const user: User = {
-  id: 1,
-  firstname: 'John',
-  lastname: 'Doe',
+  _id: '1',
+  firstName: 'John',
+  lastName: 'Doe',
   username: 'johndoe',
   email: 'john.doe@example.com',
   phone: '1234567890',
   age: 30,
+  password: 'password123',
   UF: 'SP',
-  friendIds: [2, 3],
+  friendIds: ['2', '3'],
   shareInfoWithPublic: false,
 };
 
 const userBasicInfo = [
-  { info: 'Name', data: `${user.firstname} ${user.lastname}` },
+  { info: 'Name', data: `${user.firstName} ${user.lastName}` },
   { info: 'Email', data: user.email },
 ];
 

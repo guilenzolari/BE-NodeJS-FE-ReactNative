@@ -8,15 +8,16 @@ interface UserState {
 
 const initialState: UserState = {
   currentUser: {
-    id: 1,
-    firstname: 'John',
-    lastname: 'Doe',
+    _id: '6948c3eeeac63b74e57b1a3b',
+    firstName: 'John',
+    lastName: 'Doe',
     username: 'johndoe',
     email: 'john.doe@example.com',
     phone: '1234567890',
     age: 30,
+    password: 'password123',
     UF: 'SP',
-    friendIds: [1, 2, 3, 4],
+    friendIds: ['6948c649eac63b74e57b1a47'],
     shareInfoWithPublic: false,
   },
   isAuthenticated: true,
@@ -31,7 +32,7 @@ export const userSlice = createSlice({
         state.currentUser = { ...state.currentUser, ...action.payload };
       }
     },
-    addFriend(state, action: PayloadAction<number>) {
+    addFriend(state, action: PayloadAction<string>) {
       if (
         state.currentUser &&
         !state.currentUser.friendIds.includes(action.payload)
@@ -39,7 +40,7 @@ export const userSlice = createSlice({
         state.currentUser.friendIds.push(action.payload);
       }
     },
-    removeFriend(state, action: PayloadAction<number>) {
+    removeFriend(state, action: PayloadAction<string>) {
       if (state.currentUser) {
         state.currentUser.friendIds = state.currentUser.friendIds.filter(
           id => id !== action.payload,
