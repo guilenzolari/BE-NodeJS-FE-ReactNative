@@ -213,6 +213,7 @@ npm test
 - ✅ Redux Toolkit
 - ⏳ Connect with API (RTK Query)
 - ⏳ Implement screens (Home, Profile, Search, FriendProfile)
+- ⏳ i18n
 
 ### 🔴 Stage 4 — Security and authentication
 
