@@ -24,12 +24,12 @@ const userBasicInfo = [
 ];
 
 const userContactInfo = [
-  { info: 'Phone', data: phoneFormatter(user.phone) },
-  { info: 'Location', data: user.UF },
+  { info: 'Phone', data: phoneFormatter(user.phone) || '' },
+  { info: 'Location', data: user.UF || '' },
 ];
 
 const userFriendshipInfo = [
-  { info: 'Number of friends', data: user.friendIds.length.toString() },
+  { info: 'Number of friends', data: user.friendIds.length.toString() || '0' },
 ];
 
 const FriendProfileView: React.FC = () => {

@@ -12,29 +12,32 @@ const ProfileView: React.FC = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.user.currentUser);
 
-  if (!userData) {
-    return <Text>Loading...</Text>;
-  }
-
   const infoSections = useMemo(
     () => ({
       basic: [
-        { info: 'Name', data: `${userData.firstname} ${userData.lastname}` },
-        { info: 'Email', data: userData.email },
+        {
+          info: 'Name',
+          data: `${userData?.firstName || ''} ${userData?.lastName || ''}`,
+        },
+        { info: 'Email', data: userData?.email || '' },
       ],
       contact: [
-        { info: 'Phone', data: phoneFormatter(userData.phone) },
-        { info: 'Location', data: userData.UF },
+        { info: 'Phone', data: phoneFormatter(userData?.phone) || '' },
+        { info: 'Location', data: userData?.UF || '' },
       ],
       friendship: [
         {
           info: 'Number of friends',
-          data: userData.friendIds.length.toString(),
+          data: userData?.friendIds.length.toString() || '0',
         },
       ],
     }),
     [userData],
   );
+
+  if (!userData) {
+    return <Text>Loading...</Text>;
+  }
 
   const toggleShareInfo = () => {
     dispatch(toggleShare());

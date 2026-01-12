@@ -2,14 +2,13 @@ import React, { memo, useCallback } from 'react';
 import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 import FriendCard from '../components/FriendCard';
-import { FriendDisplayData, User } from '../store/types';
+import { FriendDisplayData } from '../store/types';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useGetUsersByBatchQuery } from '../store/apiSlice';
 
 const HomeView: React.FC = () => {
   const navigation = useNavigation<any>();
-  const userId = useSelector((state: any) => state.user.currentUser.id);
   const friendsIds = useSelector(
     (state: any) => state.user.currentUser.friendIds,
   );
