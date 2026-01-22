@@ -2,12 +2,19 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Config from 'react-native-config';
 import { User } from './types';
 
+const HARDCODED_USER_ID = '6948c3eeeac63b74e57b1a3b'; //TODO: apagar quando implementar autenticação
+
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: Config.API_URL }),
   tagTypes: ['User', 'Friends'],
   endpoints: builder => ({
-    // Query para buscar dados do usuário (GET)
+    // Query para buscar o usuário logado
+    getCurrentUser: builder.query<User, void>({
+      query: () => `users/${HARDCODED_USER_ID}`, // Usando ID fixo por enquanto
+      providesTags: ['User'],
+    }),
+    // Query para buscar dados de usuários (GET)
     getUser: builder.query({
       query: (id: string) => `/users/${id}`, // MongoDB ID é string
       providesTags: ['User'],
@@ -37,6 +44,7 @@ export const apiSlice = createApi({
 
 // Você precisa exportar os hooks gerados automaticamente
 export const {
+  useGetCurrentUserQuery,
   useGetUserQuery,
   useGetUsersByBatchQuery,
   useAddFriendMutation, // Exportando a mutation

@@ -4,7 +4,7 @@ export type User = {
   _id: string;
   email: string;
   firstName: string;
-  friendIds: string[];
+  friends: string[];
   lastName: string;
   password: string;
   phone: string;

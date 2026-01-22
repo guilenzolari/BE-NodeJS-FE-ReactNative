@@ -4,14 +4,15 @@ import { StyleSheet } from 'react-native';
 import FriendCard from '../components/FriendCard';
 import { FriendDisplayData } from '../store/types';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { useGetUsersByBatchQuery } from '../store/apiSlice';
+import {
+  useGetCurrentUserQuery,
+  useGetUsersByBatchQuery,
+} from '../store/apiSlice';
 
 const HomeView: React.FC = () => {
   const navigation = useNavigation<any>();
-  const friendsIds = useSelector(
-    (state: any) => state.user.currentUser.friendIds,
-  );
+  const { data: userData } = useGetCurrentUserQuery();
+  const friendsIds = userData?.friends || [];
 
   const {
     data: friends,
@@ -19,7 +20,7 @@ const HomeView: React.FC = () => {
     isError,
   } = useGetUsersByBatchQuery(friendsIds, {
     skip: !friendsIds || friendsIds.length === 0,
-  });
+  }); // TODO: fetch friends just using the userId not passing all friend IDs
 
   const navigateToFriendProfile = useCallback(
     (friendID: string) => {

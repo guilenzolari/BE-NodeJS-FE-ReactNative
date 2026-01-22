@@ -1,16 +1,20 @@
 import React, { memo, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import InfoList from '../components/InfoList';
 import ToggleCell from '../components/ToggleCell';
 import { phoneFormatter } from '../utils/dataUtils';
-import { useSelector } from 'react-redux';
-import { toggleShareInfo as toggleShare } from '../store/userSlice';
-import { useDispatch } from 'react-redux';
-import { RootState } from '../store/index';
+import { useGetCurrentUserQuery } from '../store/apiSlice';
+
+const voidFunction = () => {};
 
 const ProfileView: React.FC = () => {
-  const dispatch = useDispatch();
-  const userData = useSelector((state: RootState) => state.user.currentUser);
+  const { data: userData, isFetching } = useGetCurrentUserQuery();
 
   const infoSections = useMemo(
     () => ({
@@ -29,20 +33,14 @@ const ProfileView: React.FC = () => {
       friendship: [
         {
           info: 'Number of friends',
-          data: userData?.friendIds.length.toString() || '0',
+          data: userData?.friends.length.toString() || '0',
         },
       ],
     }),
     [userData],
   );
 
-  if (!userData) {
-    return <Text>Loading...</Text>;
-  }
-
-  const toggleShareInfo = () => {
-    dispatch(toggleShare());
-  };
+  if (!userData) return <ActivityIndicator size="large" />;
 
   const logout = () => {
     console.log('Logout pressed');
@@ -50,6 +48,7 @@ const ProfileView: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {isFetching && <ActivityIndicator size="small" />}
       <View style={styles.container}>
         <InfoList items={infoSections.username} />
         <InfoList items={infoSections.basic} />
@@ -59,7 +58,7 @@ const ProfileView: React.FC = () => {
         <ToggleCell
           label="Share info with public"
           isEnabled={userData.shareInfoWithPublic}
-          onToggle={toggleShareInfo}
+          onToggle={voidFunction} // TODO: implement toggle functionality
         />
         <TouchableOpacity style={styles.button} onPress={logout}>
           <Text style={styles.buttonText}>Logout</Text>
