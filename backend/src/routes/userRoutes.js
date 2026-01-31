@@ -7,8 +7,8 @@ import {
   updateUserByID,
   deleteUserByID,
   getUserByUsername,
-  addFriend,
   getFriends,
+  addFriendById,
 } from '../controllers/useController.js';
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.post('/batch', getUsersByIDs);
 router.get('/username/:username', getUserByUsername);
 router.put('/:id', updateUserByID);
 router.delete('/:id', deleteUserByID);
-router.post('/:id/friend', addFriend);
 router.get('/:id/friends', getFriends);
+router.post('/:id/add-friend', addFriendById);
 
 export default router;

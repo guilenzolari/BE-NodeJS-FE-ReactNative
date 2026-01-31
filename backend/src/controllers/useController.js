@@ -64,6 +64,40 @@ export const getUserByUsername = async (req, res) => {
   res.json(user);
 };
 
+//Adicionar amigo usando IDs /
+export const addFriendById = async (req, res) => {
+  const { friendId } = req.body;
+  const userId = req.params.id;
+
+  if (userId === friendId) {
+    throw new AppError('Cannot add yourself as a friend', 400);
+  }
+
+  // Executamos os updates de forma atômica
+  // O { new: true } faz o Mongoose retornar o documento JÁ atualizado
+  const [updatedUser, updatedFriend] = await Promise.all([
+    User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { friends: friendId } },
+      { new: true, runValidators: true }
+    ),
+    User.findByIdAndUpdate(
+      friendId,
+      { $addToSet: { friends: userId } },
+      { new: true, runValidators: true }
+    ),
+  ]);
+
+  if (!updatedUser || !updatedFriend) {
+    throw new AppError('User or Friend not found', 404);
+  }
+
+  res.status(200).json({
+    message: 'Friend added successfully',
+    user: updatedUser,
+  });
+};
+
 //PUT -> atualizar usuário já existente
 export const updateUserByID = async (req, res) => {
   const { error } = userValidationSchema.validate(req.body, { presence: 'optional' });
@@ -76,31 +110,6 @@ export const updateUserByID = async (req, res) => {
     throw new AppError('User not found', 404);
   }
   res.json(user);
-};
-
-// Adicionar ID de amigo ao usuário
-export const addFriend = async (req, res) => {
-  const { id } = req.params;
-  const { friendId } = req.body;
-
-  if (id === friendId) {
-    throw new AppError('Cannot add yourself as a friend', 400);
-  }
-
-  const [user, friend] = await Promise.all([User.findById(id), User.findById(friendId)]);
-
-  if (!user || !friend) throw new AppError('User or Friend not found', 404);
-
-  if (user.friends.includes(friendId)) {
-    throw new AppError('Friend already added', 409);
-  }
-
-  user.friends.push(friendId);
-  friend.friends.push(id);
-
-  await Promise.all([user.save(), friend.save()]);
-
-  res.json({ message: 'Friend added successfully', user });
 };
 
 //DELETE usuário por ID
