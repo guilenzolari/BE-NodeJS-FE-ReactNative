@@ -16,8 +16,6 @@ const userSchema = new mongoose.Schema(
     },
     password: { type: String, required: true, minlength: 6 },
     friends: [{ type: String, default: [] }],
-    shareInfoWithFriends: { type: Boolean, default: true },
-    shareInfoWithStranges: { type: Boolean, default: false },
   },
   {
     toJSON: { virtuals: true },

@@ -12,8 +12,6 @@ import { phoneFormatter } from '../utils/dataUtils';
 import { useGetCurrentUserQuery } from '../store/apiSlice';
 import { useTranslation } from 'react-i18next';
 
-const voidFunction = () => {};
-
 const ProfileView: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { data: userData, isFetching } = useGetCurrentUserQuery();
@@ -66,13 +64,6 @@ const ProfileView: React.FC = () => {
         <InfoList items={infoSections.basic} />
         <InfoList items={infoSections.contact} />
         <InfoList items={infoSections.friendship} />
-
-        <ToggleCell
-          label={t('profile.shareInfo')}
-          isEnabled={userData.shareInfoWithPublic}
-          onToggle={voidFunction} // TODO: implement toggle functionality
-        />
-
         <ToggleCell
           label={t('profile.language')}
           isEnabled={i18n.language === 'en'}

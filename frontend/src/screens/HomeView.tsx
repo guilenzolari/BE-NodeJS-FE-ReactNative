@@ -19,6 +19,7 @@ const HomeView: React.FC = () => {
     isFetching: isFetchingUser,
     refetch: refetchUser,
   } = useGetCurrentUserQuery();
+
   const friendsIds = useMemo(
     () => userData?.friends || [],
     [userData?.friends],
@@ -48,11 +49,20 @@ const HomeView: React.FC = () => {
     }
   }, [refetchUser, refetchFriends, friendsIds]);
 
+  const countFriends = friends ? friends.length - 1 : undefined;
+
   const renderItem = useCallback(
-    ({ item }: { item: FriendDisplayData }) => (
+    ({ item, index }: { item: FriendDisplayData; index: number }) => (
       <FriendCard
         friend={item}
         onPress={() => navigateToFriendProfile(item._id)}
+        containerStyle={
+          index === countFriends
+            ? styles.footerSpacing
+            : index === 0
+            ? styles.headerSpacing
+            : undefined
+        }
       />
     ),
     [navigateToFriendProfile],
@@ -95,7 +105,6 @@ const HomeView: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 16,
   },
   itemsContainer: {
     width: '100%',
@@ -111,6 +120,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  footerSpacing: {
+    marginBottom: 30,
+  },
+  headerSpacing: {
+    marginTop: 16,
   },
 });
 

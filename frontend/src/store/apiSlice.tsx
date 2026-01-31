@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Config from 'react-native-config';
 import { User } from './types';
 
-const HARDCODED_USER_ID = '6948c3eeeac63b74e57b1a3b'; //TODO: apagar quando implementar autenticação
+const HARDCODED_USER_ID = '697e6a7f9f19037c51fad351'; //TODO: apagar quando implementar autenticação
 
 export const apiSlice = createApi({
   reducerPath: 'api',

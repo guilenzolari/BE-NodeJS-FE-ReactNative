@@ -10,7 +10,6 @@
     "phone": "Phone",
     "location": "Location",
     "numberOfFriends": "Number of friends",
-    "shareInfo": "Share information with everyone",
     "logout": "Sign out",
     "language": "Language"
   },
@@ -32,5 +31,8 @@
     "search": "Search",
     "profile": "Profile",
     "friendProfile": "Friend Profile"
+  },
+  "frendCard": {
+    "you": "You"
   }
 }

@@ -2,23 +2,44 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FriendDisplayData } from '../store/types';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useGetCurrentUserQuery } from '../store/apiSlice';
+import { useTranslation } from 'react-i18next';
 
 interface FriendCardProps {
   friend: FriendDisplayData;
   onPress?: () => void;
+  containerStyle?: object;
 }
 
-const FriendCard: React.FC<FriendCardProps> = ({ friend, onPress }) => {
+const FriendCard: React.FC<FriendCardProps> = ({
+  friend,
+  onPress,
+  containerStyle,
+}) => {
+  const { data: userData } = useGetCurrentUserQuery();
+  const isCurrentUser = userData?._id === friend._id;
+  const { t } = useTranslation();
+
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={[
+        styles.container,
+        containerStyle,
+        isCurrentUser && styles.isUserBackground,
+      ]}
+      onPress={onPress}
+      disabled={isCurrentUser}
+    >
       <View style={styles.textCenter}>
-        <Text
-          style={styles.name}
-        >{`${friend.firstName} ${friend.lastName}`}</Text>
+        <Text style={styles.name}>{`${friend.firstName} ${friend.lastName}${
+          isCurrentUser ? ` ${t('frendCard.you')}` : ''
+        }`}</Text>
         <Text style={styles.username}>@{friend.username}</Text>
         <Text style={styles.email}>{friend.email}</Text>
       </View>
-      <Icon name="chevron-forward" size={20} style={styles.icon} />
+      {!isCurrentUser && (
+        <Icon name="chevron-forward" size={20} style={styles.icon} />
+      )}
     </TouchableOpacity>
   );
 };
@@ -50,6 +71,12 @@ const styles = StyleSheet.create({
   icon: {
     color: '#666',
     marginRight: 6,
+  },
+  isUserBackground: {
+    backgroundColor: '#b2ffab',
+  },
+  footerSpacing: {
+    marginBottom: 30,
   },
 });
 

@@ -8,7 +8,6 @@ interface InfoListProps {
 }
 
 const InfoList: React.FC<{ items: InfoListProps[] }> = ({ items }) => {
-  const length = items.length - 1;
   if (items.length === 0) {
     return null;
   }
@@ -17,13 +16,13 @@ const InfoList: React.FC<{ items: InfoListProps[] }> = ({ items }) => {
     <View style={styles.container}>
       {items.map((item, index) => (
         <View key={index}>
+          {index > 0 && item.data && <Divider />}
           {item.data && (
             <View style={styles.cell}>
               <Text style={styles.info}>{item.info}</Text>
               <Text style={styles.data}>{item.data}</Text>
             </View>
           )}
-          {index < length && <Divider />}
         </View>
       ))}
     </View>

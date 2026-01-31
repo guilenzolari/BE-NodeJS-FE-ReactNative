@@ -10,7 +10,6 @@
     "phone": "Telefone",
     "location": "Localização",
     "numberOfFriends": "Número de amigos",
-    "shareInfo": "Compartilhar informações com todos",
     "logout": "Sair",
     "language": "Idioma"
   },
@@ -32,5 +31,8 @@
     "search": "Buscar",
     "profile": "Perfil",
     "friendProfile": "Perfil do Amigo"
+  },
+  "frendCard": {
+    "you": "You"
   }
 }
