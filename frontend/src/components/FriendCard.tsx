@@ -27,12 +27,15 @@ const FriendCard: React.FC<FriendCardProps> = ({
   const isCurrentUser = userData?._id === friend._id;
   const { t } = useTranslation();
   const [addFriendTrigger, { isLoading, isSuccess }] = useAddFriendMutation();
-  const userFriends = userData?.friends || [];
+  const userFriends = useMemo(
+    () => userData?.friends || [],
+    [userData?.friends],
+  );
 
   //TODO: otimizar essa verificação pois está sendo feita toda vez que o componente renderiza
   const isAlreadyFriend = useMemo(
     () => userFriends.includes(friend._id) || isSuccess,
-    [userFriends, friend._id],
+    [userFriends, friend._id, isSuccess],
   );
 
   const handleAddFriend = useCallback(async () => {
@@ -49,16 +52,8 @@ const FriendCard: React.FC<FriendCardProps> = ({
   }, [userData, isCurrentUser, addFriendTrigger, friend._id]);
 
   const addFriendIcon = useMemo(() => {
-    if (isCurrentUser) {
+    if (isCurrentUser || isAlreadyFriend) {
       return null;
-    }
-
-    if (isAlreadyFriend) {
-      return (
-        <View style={[styles.addFriendButton, { backgroundColor: '#d1ffd1' }]}>
-          <Icon name="checkmark-circle" size={24} color="#2ecc71" />
-        </View>
-      );
     }
 
     if (isLoading) {
@@ -73,7 +68,7 @@ const FriendCard: React.FC<FriendCardProps> = ({
         <Icon name="person-add" size={24} />
       </TouchableOpacity>
     );
-  }, [handleAddFriend, friend._id, isCurrentUser, userData, isAlreadyFriend]);
+  }, [handleAddFriend, isCurrentUser, isAlreadyFriend, isLoading]);
 
   return (
     <TouchableOpacity

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, use } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   View,
   StyleSheet,
@@ -46,6 +46,11 @@ const SearchView = () => {
     [navigateToFriendProfile],
   );
 
+  const verticalSeparator = useCallback(
+    () => <View style={styles.verticalSeparator} />,
+    [],
+  );
+
   // Componente para quando a lista estiver vazia
   const ListEmptyComponent = useCallback(() => {
     if (isFetching) return null;
@@ -76,8 +81,7 @@ const SearchView = () => {
         keyExtractor={item => item._id}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={ListEmptyComponent}
-        ListHeaderComponent={<View style={{ height: 16 }} />}
-        ListFooterComponent={<View style={{ height: 30 }} />}
+        ListFooterComponent={verticalSeparator}
         keyboardShouldPersistTaps="handled"
       />
     </View>
@@ -109,6 +113,9 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 20,
+  },
+  verticalSeparator: {
+    height: 20,
   },
 });
 

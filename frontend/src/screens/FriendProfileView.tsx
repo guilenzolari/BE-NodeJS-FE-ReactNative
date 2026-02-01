@@ -60,7 +60,7 @@ const FriendProfileView: React.FC = () => {
         ]}
       />
     ),
-    [navigateToFriendProfile],
+    [navigateToFriendProfile, countFriends],
   );
 
   const memoizeHeader = useCallback(() => {

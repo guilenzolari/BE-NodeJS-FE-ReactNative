@@ -65,7 +65,7 @@ const HomeView: React.FC = () => {
         }
       />
     ),
-    [navigateToFriendProfile],
+    [navigateToFriendProfile, countFriends],
   );
 
   if (isLoadingFriends && !friends) {
