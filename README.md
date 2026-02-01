@@ -206,7 +206,7 @@ npm test
 - ✅ Deploy on Render.com
 - ✅ Add CI/CD
 
-### 🟡 Stage 3 — Create the frontend to consume the API
+### ✅ Stage 3 — Create the frontend to consume the API
 
 - ✅ React Native setup
 - ✅ React Navigation
@@ -214,14 +214,12 @@ npm test
 - ✅ Connect with API (RTK Query)
   - ✅ TODO: Implement pull-to-refresh functionality
   - ✅ TODO: Add error handling and retry mechanism
-  - TODO: implement pagination for large friend lists
 - ✅ Implement screens
   - Home ✅
   - Profile ✅
   - Search ✅
   - FriendProfile ✅
 - ✅ i18n
-- Cleanup and improvements
 
 ### 🔴 Stage 4 — Security and authentication
 
@@ -241,7 +239,9 @@ npm test
 - ⏳ Update README
 - ⏳ Swagger for API documentation
 
-### 🔴 Pending Frontend Tasks
+### 🔴 Stage 6 - Frontend Improvements Tasks
+
+[FE Improvements Planning Document](./frontend/IMPROVEMENTS.md)
 
 - ⏳ Migration to RTK Query (API Layer & Cache)
 - ⏳ Real Authentication Flow (Auth Layer)
@@ -249,6 +249,7 @@ npm test
 - ⏳ Network State Management (Loading/Error/Empty)
 - ⏳ Dynamic Navigation with Parameters
 - ⏳ Optimistic Updates (High Performance UI)
+- ⏳ implement pagination for large friend lists
 
 ## 🔐 Environment Variables
 
