@@ -1,9 +1,16 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import { FriendDisplayData } from '../store/types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useGetCurrentUserQuery } from '../store/apiSlice';
 import { useTranslation } from 'react-i18next';
+import { useAddFriendMutation } from '../store/apiSlice';
 
 interface FriendCardProps {
   friend: FriendDisplayData;
@@ -19,6 +26,54 @@ const FriendCard: React.FC<FriendCardProps> = ({
   const { data: userData } = useGetCurrentUserQuery();
   const isCurrentUser = userData?._id === friend._id;
   const { t } = useTranslation();
+  const [addFriendTrigger, { isLoading, isSuccess }] = useAddFriendMutation();
+  const userFriends = userData?.friends || [];
+
+  //TODO: otimizar essa verificação pois está sendo feita toda vez que o componente renderiza
+  const isAlreadyFriend = useMemo(
+    () => userFriends.includes(friend._id) || isSuccess,
+    [userFriends, friend._id],
+  );
+
+  const handleAddFriend = useCallback(async () => {
+    if (userData && !isCurrentUser) {
+      try {
+        await addFriendTrigger({
+          userId: userData._id,
+          friendId: friend._id,
+        }).unwrap();
+      } catch (error) {
+        console.error('Error adding friend:', error);
+      }
+    }
+  }, [userData, isCurrentUser, addFriendTrigger, friend._id]);
+
+  const addFriendIcon = useMemo(() => {
+    if (isCurrentUser) {
+      return null;
+    }
+
+    if (isAlreadyFriend) {
+      return (
+        <View style={[styles.addFriendButton, { backgroundColor: '#d1ffd1' }]}>
+          <Icon name="checkmark-circle" size={24} color="#2ecc71" />
+        </View>
+      );
+    }
+
+    if (isLoading) {
+      return <ActivityIndicator size="small" />;
+    }
+
+    return (
+      <TouchableOpacity
+        onPress={handleAddFriend}
+        style={styles.addFriendButton}
+      >
+        <Icon name="person-add" size={24} />
+      </TouchableOpacity>
+    );
+  }, [handleAddFriend, friend._id, isCurrentUser, userData, isAlreadyFriend]);
 
   return (
     <TouchableOpacity
@@ -32,11 +87,12 @@ const FriendCard: React.FC<FriendCardProps> = ({
     >
       <View style={styles.textCenter}>
         <Text style={styles.name}>{`${friend.firstName} ${friend.lastName}${
-          isCurrentUser ? ` ${t('frendCard.you')}` : ''
+          isCurrentUser ? ` (${t('friendCard.you')})` : ''
         }`}</Text>
         <Text style={styles.username}>@{friend.username}</Text>
         <Text style={styles.email}>{friend.email}</Text>
       </View>
+      {addFriendIcon}
       {!isCurrentUser && (
         <Icon name="chevron-forward" size={20} style={styles.icon} />
       )}
@@ -77,6 +133,13 @@ const styles = StyleSheet.create({
   },
   footerSpacing: {
     marginBottom: 30,
+  },
+  addFriendButton: {
+    marginRight: 10,
+    backgroundColor: '#e8e8e8',
+    padding: 8,
+    paddingHorizontal: 20,
+    borderRadius: 200,
   },
 });
 

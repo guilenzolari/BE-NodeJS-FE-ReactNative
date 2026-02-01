@@ -219,7 +219,7 @@ npm test
   - Home ✅
   - Profile ✅
   - Search
-  - FriendProfile
+  - FriendProfile ✅
 - ✅ i18n
 - Cleanup and improvements
 

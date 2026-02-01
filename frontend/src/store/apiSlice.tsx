@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Config from 'react-native-config';
 import { User } from './types';
 
-const HARDCODED_USER_ID = '697e6a7f9f19037c51fad351'; //TODO: apagar quando implementar autenticação
+const HARDCODED_USER_ID = '697e875c8eeaae9817ed5f5b'; //TODO: apagar quando implementar autenticação
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -32,12 +32,12 @@ export const apiSlice = createApi({
     // Mutation para enviar dados (POST)
     addFriend: builder.mutation<any, { userId: string; friendId: string }>({
       query: ({ userId, friendId }) => ({
-        url: `/users/${userId}/friend`,
+        url: `/users/${userId}/add-friend`,
         method: 'POST',
         body: { friendId },
       }),
-      // Isso força as queries de 'Friends' a recarregarem
-      invalidatesTags: ['Friends'],
+      // Isso força as queries de 'Friends' e 'User' a recarregarem
+      invalidatesTags: ['Friends', 'User'],
     }),
   }),
 });
