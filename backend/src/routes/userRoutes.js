@@ -9,12 +9,14 @@ import {
   getUserByUsername,
   getFriends,
   addFriendById,
+  searchUsersByUsernameOrEmailOrName,
 } from '../controllers/useController.js';
 
 const router = express.Router();
 
 router.post('/', createUser);
 router.get('/', getAllUsers);
+router.get('/search', searchUsersByUsernameOrEmailOrName);
 router.get('/:id', getUserById);
 router.post('/batch', getUsersByIDs);
 router.get('/username/:username', getUserByUsername);

@@ -128,3 +128,26 @@ export const getFriends = async (req, res) => {
 
   res.json(user.friends);
 };
+
+// Buscar usuários por username, email ou nome
+export const searchUsersByUsernameOrEmailOrName = async (req, res) => {
+  const { query } = req.query;
+  if (!query) {
+    throw new AppError('Query parameter is required', 400);
+  }
+  // 'i' torna a busca insensível a maiúsculas/minúsculas
+  const searchRegex = new RegExp(query.trim(), 'i');
+
+  const users = await User.find({
+    $or: [
+      { username: { $regex: searchRegex } },
+      { email: { $regex: searchRegex } },
+      { firstName: { $regex: searchRegex } },
+      { lastName: { $regex: searchRegex } },
+    ],
+  })
+    .select('-password') // Exclui o campo de senha dos resultados
+    .limit(10); // Limita a 10 resultados
+
+  res.status(200).json(users);
+};
