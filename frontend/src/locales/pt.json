@@ -34,5 +34,10 @@
   },
   "friendCard": {
     "you": "You"
+  },
+  "searchView": {
+    "search": "Busca usuários",
+    "noResults": "Nenhum usuário encontrado",
+    "enterSearchTerm": "Digite pelo menos 2 caracteres para buscar"
   }
 }

@@ -39,6 +39,10 @@ export const apiSlice = createApi({
       // Isso força as queries de 'Friends' e 'User' a recarregarem
       invalidatesTags: ['Friends', 'User'],
     }),
+    searchUsers: builder.query<User[], string>({
+      query: (info: string) => `/users/search?query=${info}`,
+      providesTags: ['User'],
+    }),
   }),
 });
 
@@ -48,4 +52,5 @@ export const {
   useGetUserQuery,
   useGetUsersByBatchQuery,
   useAddFriendMutation, // Exportando a mutation
+  useSearchUsersQuery,
 } = apiSlice;

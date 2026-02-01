@@ -39,6 +39,11 @@ const SearchStack = () => {
         component={SearchView}
         options={{ title: t('pageTitle.search') }}
       />
+      <Stack.Screen
+        name="FriendProfileView"
+        component={FriendProfileView}
+        options={{ title: t('searchView.search') }}
+      />
     </Stack.Navigator>
   );
 };
